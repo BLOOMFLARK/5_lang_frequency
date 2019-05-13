@@ -1,4 +1,5 @@
 import sys
+import re
 
 
 def load_data(file_path):
@@ -10,8 +11,13 @@ def load_data(file_path):
         return None
 
 
-def get_most_frequent_words(words):
+def prepared_text(text):
+    return [word for word in re.findall(r'\w+', text.lower())]
+
+
+def get_most_frequent_words(text):
     counted_words = {}
+    words = prepared_text(text)
     for word in words:
         if not counted_words.get(word):
             counted_words[word] = 1
@@ -41,4 +47,4 @@ if __name__ == '__main__':
     if not text:
         sys.exit('file not found')
     else:
-        print_most_frequent_words(get_most_frequent_words(text.split(' ')))
+        print_most_frequent_words(get_most_frequent_words(text))
