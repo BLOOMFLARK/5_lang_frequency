@@ -5,8 +5,8 @@ import re
 
 def load_data(file_path):
     try:
-        file = open(file_path, 'r')
-        return file.read()
+        text_file = open(file_path, 'r')
+        return text_file.read()
 
     except FileNotFoundError:
         return None
