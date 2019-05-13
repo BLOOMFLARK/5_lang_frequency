@@ -1,11 +1,12 @@
 import sys
+from collections import Counter
 import re
 
 
 def load_data(file_path):
     try:
-        f = open(file_path, 'r')
-        return f.read()
+        file = open(file_path, 'r')
+        return file.read()
 
     except FileNotFoundError:
         return None
@@ -15,21 +16,10 @@ def prepared_text(text):
     return [word for word in re.findall(r'\w+', text.lower())]
 
 
-def get_most_frequent_words(text):
-    counted_words = {}
+def get_most_frequent_words(text, number_of_words):
     words = prepared_text(text)
-    for word in words:
-        if not counted_words.get(word):
-            counted_words[word] = 1
-        else:
-            counted_words[word] += 1
-
-    counted_words_list = list(counted_words.items())
-    sorted_counted_words_list = sorted(counted_words_list, key=lambda x: x[1], reverse=True)
-    if len(text) < 10:
-        return sorted_counted_words_list
-    else:
-        return sorted_counted_words_list[0:10]
+    counter = Counter(words)
+    return counter.most_common(number_of_words)
 
 
 def print_most_frequent_words(words_data):
@@ -47,4 +37,4 @@ if __name__ == '__main__':
     if not text:
         sys.exit('file not found')
     else:
-        print_most_frequent_words(get_most_frequent_words(text))
+        print_most_frequent_words(get_most_frequent_words(text, number_of_words=10))
